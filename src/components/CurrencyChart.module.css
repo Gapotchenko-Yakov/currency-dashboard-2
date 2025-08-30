@@ -1,17 +1,10 @@
 .container {
-    display: flex;
-    flex-direction: row;
     height: 400px;
     width: 100%;
 }
 
 .chartContainer {
+    height: 400px;
     flex-grow: 1;
 }
 
-.controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: end;
-}

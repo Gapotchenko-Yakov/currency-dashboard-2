@@ -1,11 +1,13 @@
-import React from 'react';
+import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 import { CurrencyChart } from './components/CurrencyChart';
 
 function App() {
   return (
-    <div>
-      <CurrencyChart initialCurrency="Курс доллара" />
-    </div>
+    <Theme preset={presetGpnDefault}>
+      <div className='app'>
+        <CurrencyChart initialCurrency="USD" />
+      </div>
+    </Theme>
   );
 }
 

@@ -1,6 +1,8 @@
 //Данные для приложения
 
-const mockData = [
+import { CurrencyData } from "./types";
+
+export const currencyData: CurrencyData[] = [
   {
     date: '2016-02-01',
     month: 'фев 2016',

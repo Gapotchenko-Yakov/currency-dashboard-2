@@ -44,33 +44,77 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
         currenciesApi.getAll().then((res) => setData(res));
     }, []);
 
-    const filteredData = data.filter((d) => d.indicator === mapCurrencyCodeToLabel[currency]);
+    const {
+        filteredData,
+        values,
+        minValue,
+        maxValue,
+        padding,
+        averageValue,
+        option,
+    } = useMemo(() => {
+        const filtered = data.filter(d => d.indicator === mapCurrencyCodeToLabel[currency]);
+        const vals = filtered.map(d => d.value);
+        const minV = vals.length ? Math.min(...vals) : 0;
+        const maxV = vals.length ? Math.max(...vals) : 0;
+        const pad = (maxV - minV) * 0.0;
 
-    const averageValue = useMemo(() => {
-        return filteredData.length > 0
-            ? filteredData.reduce((acc, cur) => acc + cur.value, 0) / filteredData.length
-            : 0;
-    }, [filteredData]);
+        const avg = vals.length ? vals.reduce((acc, v) => acc + v, 0) / vals.length : 0;
 
-    const option = {
-        tooltip: {
-            trigger: "axis",
-            formatter: (params: any) => {
-                const p = params[0];
-                return `${p.axisValueLabel}<br />${p.seriesName}: ${p.data}`;
+        const opt = {
+            tooltip: {
+                trigger: 'axis',
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `
+                        <div style="
+                            display: flex;
+                            flex-direction: column;
+                            border-radius: 4px;
+                            gap: 8px;
+                            padding: 8px;                            
+                            ">
+                            <strong style="color: black;">${p.axisValueLabel}</strong>
+                            <div style="
+                            display: flex;
+                            gap: 39px;                            
+                            ">
+                            <span style="
+                            display: flex;
+                            gap: 8px;
+                            justify-content: start;
+                            align-items: baseline;                            
+                            ">
+                            <span style="
+                            display:inline-block;
+                            width:12px;
+                            height:12px;
+                            background-color:${p.color};
+                            border-radius: 100%;
+                            "></span>       
+                            ${mapCurrencyCodeToLabel[p.seriesName as CurrencyCode]}
+                            </span>
+                            <strong style="color: black;">${Number(p.data).toFixed(2)} ₽</strong>
+                            </div>
+                        </div>
+                        `;
+                },
             },
-        },
-        xAxis: { type: "category", data: filteredData.map((d) => d.month) },
-        yAxis: { type: "value" },
-        series: [
-            {
-                name: currency,
-                data: filteredData.map((d) => d.value),
-                type: "line",
-                // smooth: true,
-            },
-        ],
-    };
+            xAxis: { type: 'category', data: filtered.map(d => d.month) },
+            yAxis: { type: 'value', min: minV - pad, max: maxV + pad },
+            series: [{ name: currency, type: 'line', data: vals }],
+        };
+
+        return {
+            filteredData: filtered,
+            values: vals,
+            minValue: minV,
+            maxValue: maxV,
+            padding: pad,
+            averageValue: avg.toFixed(2),
+            option: opt,
+        };
+    }, [data, currency]);
 
     return (
         <div
@@ -80,15 +124,27 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
                 justify: 'flex-start',
                 align: 'flex-end',
                 gap: 'xs',
-            })}`}
+            })}`
+            }
+            style={{ borderRadius: '7px' }}
         >
-            <div className={`
-            ${cls.chartContainer}
-            ${cnMixFlex({
+            <div
+                className={`${cls.tooltip} ${cnMixFlex({
+                    direction: 'row',
+                    wrap: 'wrap',
+                    justify: 'flex-start',
+                    align: 'flex-end',
+                    gap: 'xs',
+                })}`
+                }
+            >
+            </div>
+            <div className={`${cls.chartContainer} ${cnMixFlex({
+                direction: 'column',
                 align: 'center',
                 justify: 'center'
-            })}
-            `}>
+            })}`}>
+                <h2>КУРС ДОЛЛАРА, $/₽</h2>
                 <ReactECharts option={option} forceResize />
             </div>
             <div className={cnMixFlex({
@@ -105,9 +161,9 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
                     name="ChoiceGroupExample"
                 />
                 <Text size="m" weight="bold">
-                    Среднее значение: {averageValue.toFixed(2)}
+                    Среднее значение: {averageValue}
                 </Text>
             </div>
-        </div>
+        </div >
     );
 };

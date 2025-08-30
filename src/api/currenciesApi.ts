@@ -1,6 +1,6 @@
 // src/api/currenciesApi.ts
 import { ApiClient } from './apiClient';
-import type { CurrencyData } from '../data/types';
+import type { CurrencyData } from '../types/currency';
 
 export class CurrenciesApi extends ApiClient {
 

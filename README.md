@@ -13,3 +13,12 @@
 npm install
 npm start
 ```
+## API
+
+Для получения данных используется mock API: [**mockAPI**](https://mockapi.io/)
+
+Все запросы к API настроены через переменную окружения:
+
+```bash
+REACT_APP_API_URL=https://68b2e861c28940c9e69dabab.mockapi.io/api/v1
+```

@@ -3,6 +3,7 @@ import * as echarts from 'echarts';
 import type { CSSProperties } from 'react';
 
 import { forceResizeCharts } from './UtilsForCharts';
+import { JSX } from 'react';
 
 interface IOnEvents {
   type: string;

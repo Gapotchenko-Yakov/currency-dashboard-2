@@ -3,9 +3,13 @@ interface ImutationsList {
 }
 
 export function forceResizeCharts(fn: Function) {
+  // const target = document.querySelectorAll(
+  //   '#content > article .Gridster__Item'
+  // )[1];
   const target = document.querySelectorAll(
-    '#content > article .Gridster__Item'
+    '.chartContainer'
   )[1];
+
   const config = {
     attributes: true,
     childList: false,

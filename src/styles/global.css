@@ -1,0 +1,9 @@
+.app {
+    /* colors */
+    --color-gray: #667985;
+    --color-orange: #F38B00;
+    --color-primary: #002033;
+
+    /* z-index */
+    --header-z-index: 50;
+}

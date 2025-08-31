@@ -1,10 +1,53 @@
 .container {
+    display: flex;
     height: 400px;
     width: 100%;
+    max-width: 1200px;
+    background: #0020330A;
+    border-radius: 7px;
+    margin: auto;
+    position: relative;
 }
 
 .chartContainer {
     height: 400px;
+    max-width: 1000px;
     flex-grow: 1;
 }
 
+.controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.averageValue {
+    height: 100%;
+}
+
+.flexGrow {
+    flex-grow: 1;
+}
+
+.choiceGroup {
+    height: 24px;
+}
+
+.header {
+    position: absolute;
+    top: 8px;
+    left: 13px;
+    z-index: var(--header-z-index);
+}
+
+.colorGray {
+    color: var(--color-gray);
+}
+
+.colorOrange {
+    color: var(--color-orange);
+}
+
+.colorPrimary {
+    color: var(--color-primary);
+}

@@ -62,6 +62,7 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
         const avg = vals.length ? vals.reduce((acc, v) => acc + v, 0) / vals.length : 0;
 
         const opt = {
+            color: ['#F38B00', '#00ff00', '#0000ff'],
             tooltip: {
                 trigger: 'axis',
                 formatter: (params: any) => {
@@ -120,7 +121,7 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
         <div
             className={`${cls.container} ${cnMixFlex({
                 direction: 'row',
-                wrap: 'wrap',
+                // wrap: 'wrap',
                 justify: 'flex-start',
                 align: 'flex-end',
                 gap: 'xs',
@@ -128,30 +129,17 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
             }
             style={{ borderRadius: '7px' }}
         >
-            <div
-                className={`${cls.tooltip} ${cnMixFlex({
-                    direction: 'row',
-                    wrap: 'wrap',
-                    justify: 'flex-start',
-                    align: 'flex-end',
-                    gap: 'xs',
-                })}`
-                }
-            >
-            </div>
+            <Text className={`${cls.header} ${cls.colorPrimary}`} size="xl" weight="bold">
+                КУРС ДОЛЛАРА, $/₽
+            </Text>
             <div className={`${cls.chartContainer} ${cnMixFlex({
                 direction: 'column',
                 align: 'center',
                 justify: 'center'
             })}`}>
-                <h2>КУРС ДОЛЛАРА, $/₽</h2>
                 <ReactECharts option={option} forceResize />
             </div>
-            <div className={cnMixFlex({
-                direction: 'column',
-                align: 'center',
-                justify: 'center'
-            })}>
+            <div className={cls.controls}>
                 <ChoiceGroup
                     value={currency}
                     onChange={({ value }) => setCurrency(value)}
@@ -159,10 +147,27 @@ export const CurrencyChart: React.FC<CurrencyChartProps> = ({
                     getItemLabel={(item: CurrencyCode) => mapCurrencyCodeToSymbol[item]}
                     multiple={false}
                     name="ChoiceGroupExample"
+                    size="xs"
                 />
-                <Text size="m" weight="bold">
-                    Среднее значение: {averageValue}
+            </div>
+            <div className={`${cls.averageValue} ${cnMixFlex({
+                direction: 'column',
+                align: 'flex-end',
+                justify: 'center'
+            })}`}>
+                <Text className={cls.colorGray} size="m">
+                    Среднее за период
                 </Text>
+                <div className={`${cnMixFlex({
+                    direction: 'row',
+                    align: 'baseline',
+                    gap: '2xs'
+                })}`}>
+                    <Text className={cls.colorOrange} size="4xl">
+                        {averageValue}
+                    </Text>
+                    <span className={cls.colorGray}>₽</span>
+                </div>
             </div>
         </div >
     );
